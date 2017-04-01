@@ -15,6 +15,14 @@ var axes = {
   x: d3.scale.linear().domain([0, 100]).range([0, gameOptions.width]),
   y: d3.scale.linear().domain([0, 100]).range([0, gameOptions.height])
 };
+var enemy = {
+  // width: 50,
+  // height: 50,
+  // image: 'asteroid.png'
+  // x: dataStore[0],
+  // //y: dataStore
+
+};
 
 var gameBoard = function() {
   d3.select('.board').append('svg')
@@ -23,41 +31,89 @@ var gameBoard = function() {
     .attr('height', gameOptions.height)
     .style('background-color', 'black');
 };
+var en = function() {
+  d3.select('.viewport')
+    .append('image')
+    .attr('class', 'enemy')
+    .append('image')
+    .attr('width', 100)
+    .attr('height', 100)
+    .attr('xlink:xlink:href', 'asteroid.png')
+};
+en();
 gameBoard();
-var dataStore = []
-var makePositions = function() {
 
-  for (var i = 0; i < 2; i++) {
+var makePositions = function() {
+  var dataStore = []
+  for (var i = 0; i < 3; i++) {
   var coord = []
-  var x = Math.random()*100;
+  var x = Math.random()*700;
   coord.push(x);
-  var y = Math.random()*100;
+  var y = Math.random()*450;
   coord.push(y);
   dataStore.push(coord);
   }
-  console.log(dataStore);
+  //console.log(dataStore);
+  return dataStore;
 }
-makePositions();
+var dataStore = makePositions();
 
 var enemies = function() {
-  d3.selectAll('.viewport')
-  //  .data(dataStore).enter()
+  d3.select('.viewport')
+    .selectAll('image')
+    .data(makePositions())
+    .enter()
     .append('image')
-    .attr('width', 50)
-    .attr('height', 50)
+    .attr('width', 25)
+    .attr('height', 25)
     .attr('xlink:xlink:href', 'asteroid.png')
-    .attr('cx', 57) //for saturday: try to get the translate working
-    .attr('cy', 490) // it's almost there, just need a few minor tweaks.
-    // .attr('transform', function(d){
-    //   console.log(d[0])
-    //   return 'translate( + d[0] ',' d[1] + )'
-    // });
+    .attr('transform', function(d){
+      console.log(d[0]);
+      return 'translate(' + d[0] +  ',' + d[1] + ')'
+    })
 
     //put in translate attr
 }
-
+var moveEnemies = function() {
+  d3.select('.viewport')
+    .selectAll('image')
+    .data(makePositions())
+    .update()
+    .enter()
+    .attr('transform', function(d){
+      console.log(d[0]);
+      return 'translate(' + d[0] +  ',' + d[1] + ')'
+    })
+}
 enemies();
-//.attr('xlink:xlink:href', asteroid.png)
+moveEnemies();
+var trans = function() {
+
+  var dataStore = makePositions();
+  enemies.transition()
+
+}
+//trans();
+var updatePositions = function() {
+  console.log('before');
+  setInterval(function(){
+    enemies.call(this);
+    console.log('after');
+  }, 2000)
+  // d3.interval(function() {
+  //   enemies();
+  // }, 2000);
+
+
+}
+//updatePositions();
+//
+// var k = function() {
+//   while true {
+//     gameStats.currentScore++;
+//   }
+// };
+// //.attr('xlink:xlink:href', asteroid.png)
 //
 // var updateScore = function() {
 //   d3.select('.current')
