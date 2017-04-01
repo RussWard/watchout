@@ -15,15 +15,8 @@ var axes = {
   x: d3.scale.linear().domain([0, 100]).range([0, gameOptions.width]),
   y: d3.scale.linear().domain([0, 100]).range([0, gameOptions.height])
 };
-var enemy = {
-  // width: 50,
-  // height: 50,
-  // image: 'asteroid.png'
-  // x: dataStore[0],
-  // //y: dataStore
 
-};
-
+var bruh = [[300,300]]
 var gameBoard = function() {
   d3.select('.board').append('svg')
     .attr('class', 'viewport')
@@ -31,21 +24,32 @@ var gameBoard = function() {
     .attr('height', gameOptions.height)
     .style('background-color', 'black');
 };
-var en = function() {
+var dude = function() {
   d3.select('.viewport')
-    .append('image')
-    .attr('class', 'enemy')
-    .append('image')
-    .attr('width', 100)
-    .attr('height', 100)
-    .attr('xlink:xlink:href', 'asteroid.png');
-};
-en();
+    .append('circle')
+    .attr('r', 10)
+    .attr('class', 'player')
+    .attr('fill', 'red')
+    .data(bruh)
+    .attr('transform', function(d) {
+    return 'translate(' + d[0] + ',' + d[1] + ')';
+  })
+   .call(drag);
+}
+var drag = d3.behavior.drag()
+    .on("drag", function(d,i) {
+      d[0] += d3.event.dx
+      d[1] += d3.event.dy
+      d3.select(this).attr("transform", function(d,i){
+      return 'translate(' + d[0] + ',' + d[1] + ')';
+    });
+});
+
 gameBoard();
 
 var makePositions = function() {
   var dataStore = [];
-  for (var i = 0; i < 30; i++) {
+  for (var i = 0; i < 5; i++) {
     var coord = [];
     var x = Math.random() * 700;
     coord.push(x);
@@ -70,6 +74,7 @@ var enemies = function() {
     .attr('transform', function(d) {
       return 'translate(' + d[0] + ',' + d[1] + ')';
     });
+
 };
 var moveEnemies = function() {
   d3.select('.viewport')
@@ -82,7 +87,9 @@ var moveEnemies = function() {
 };
 
 enemies();
-setInterval(moveEnemies, 3000);
+dude();
+//moveEnemies();
+setInterval(moveEnemies, 2500);
 //moveEnemies();
 // var trans = function() {
 //
