@@ -18,11 +18,46 @@ var axes = {
 
 var gameBoard = function() {
   d3.select('.board').append('svg')
+    .attr('class', 'viewport')
     .attr('width', gameOptions.width)
     .attr('height', gameOptions.height)
     .style('background-color', 'black');
 };
 gameBoard();
+var dataStore = []
+var makePositions = function() {
+
+  for (var i = 0; i < 2; i++) {
+  var coord = []
+  var x = Math.random()*100;
+  coord.push(x);
+  var y = Math.random()*100;
+  coord.push(y);
+  dataStore.push(coord);
+  }
+  console.log(dataStore);
+}
+makePositions();
+
+var enemies = function() {
+  d3.selectAll('.viewport')
+  //  .data(dataStore).enter()
+    .append('image')
+    .attr('width', 50)
+    .attr('height', 50)
+    .attr('xlink:xlink:href', 'asteroid.png')
+    .attr('cx', 57) //for saturday: try to get the translate working
+    .attr('cy', 490) // it's almost there, just need a few minor tweaks.
+    // .attr('transform', function(d){
+    //   console.log(d[0])
+    //   return 'translate( + d[0] ',' d[1] + )'
+    // });
+
+    //put in translate attr
+}
+
+enemies();
+//.attr('xlink:xlink:href', asteroid.png)
 //
 // var updateScore = function() {
 //   d3.select('.current')
