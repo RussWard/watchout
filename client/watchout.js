@@ -38,24 +38,24 @@ var en = function() {
     .append('image')
     .attr('width', 100)
     .attr('height', 100)
-    .attr('xlink:xlink:href', 'asteroid.png')
+    .attr('xlink:xlink:href', 'asteroid.png');
 };
 en();
 gameBoard();
 
 var makePositions = function() {
-  var dataStore = []
-  for (var i = 0; i < 3; i++) {
-  var coord = []
-  var x = Math.random()*700;
-  coord.push(x);
-  var y = Math.random()*450;
-  coord.push(y);
-  dataStore.push(coord);
+  var dataStore = [];
+  for (var i = 0; i < 30; i++) {
+    var coord = [];
+    var x = Math.random() * 700;
+    coord.push(x);
+    var y = Math.random() * 450;
+    coord.push(y);
+    dataStore.push(coord);
   }
-  //console.log(dataStore);
   return dataStore;
-}
+};
+
 var dataStore = makePositions();
 
 var enemies = function() {
@@ -67,45 +67,42 @@ var enemies = function() {
     .attr('width', 25)
     .attr('height', 25)
     .attr('xlink:xlink:href', 'asteroid.png')
-    .attr('transform', function(d){
-      console.log(d[0]);
-      return 'translate(' + d[0] +  ',' + d[1] + ')'
-    })
-
-    //put in translate attr
-}
+    .attr('transform', function(d) {
+      return 'translate(' + d[0] + ',' + d[1] + ')';
+    });
+};
 var moveEnemies = function() {
   d3.select('.viewport')
     .selectAll('image')
     .data(makePositions())
-    .update()
-    .enter()
-    .attr('transform', function(d){
-      console.log(d[0]);
-      return 'translate(' + d[0] +  ',' + d[1] + ')'
-    })
-}
+    .transition().duration(2000)
+    .attr('transform', function(d) {
+      return 'translate(' + d[0] + ',' + d[1] + ')';
+    });
+};
+
 enemies();
-moveEnemies();
-var trans = function() {
-
-  var dataStore = makePositions();
-  enemies.transition()
-
-}
-//trans();
-var updatePositions = function() {
-  console.log('before');
-  setInterval(function(){
-    enemies.call(this);
-    console.log('after');
-  }, 2000)
-  // d3.interval(function() {
-  //   enemies();
-  // }, 2000);
-
-
-}
+setInterval(moveEnemies, 3000);
+//moveEnemies();
+// var trans = function() {
+//
+//   var dataStore = makePositions();
+//   enemies.transition()
+//
+// }
+// //trans();
+// var updatePositions = function() {
+//   console.log('before');
+//   setInterval(function(){
+//     enemies.call(this);
+//     console.log('after');
+//   }, 2000)
+//   // d3.interval(function() {
+//   //   enemies();
+//   // }, 2000);
+//
+//
+// }
 //updatePositions();
 //
 // var k = function() {
