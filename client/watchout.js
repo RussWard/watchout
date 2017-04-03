@@ -2,7 +2,7 @@
 var gameOptions = {
   height: 450,
   width: 700,
-  enemies: 30,
+  enemies: 20,
   padding: 20
 };
 
@@ -79,7 +79,7 @@ var moveEnemies = function() {
   d3.select('.viewport')
     .selectAll('image')
     .data(makePositions())
-    .transition().duration(3000)
+    .transition().duration(4000)
     .attr('transform', function(d) {
       return 'translate(' + d[0] + ',' + d[1] + ')';
     });
@@ -103,8 +103,15 @@ var collision = function() {
     var thisEnemyY = parseInt(d3.select(thisEnemy).attr('transform').split(',')[1]);
     var xLeg = Math.abs(dudeX - thisEnemyX);
     var yLeg = Math.abs(dudeY - thisEnemyY);
-    if (Math.sqrt((xLeg * xLeg) + (yLeg * yLeg)) < 20) {
+    if (Math.sqrt((xLeg * xLeg) + (yLeg * yLeg)) < 22.5) {
+      if (gameStats.currentScore > gameStats.highScore) {
+        gameStats.highScore = gameStats.currentScore;
+        d3.select('.highscore')
+          .select('span')
+          .text(gameStats.highScore);
+      }
       gameStats.currentScore = 0;
+
     }
   }
 };
@@ -112,5 +119,5 @@ var collision = function() {
 setInterval(scoreCounter, 1000);
 enemies();
 dude();
-setInterval(moveEnemies, 2500);
+setInterval(moveEnemies, 4000);
 setInterval(collision, 1);
